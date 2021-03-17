@@ -284,6 +284,11 @@ Page({
     recorderManager.onStop((res) => {
       console.log('recorder stop', res);
       // 4. 创建消息实例，接口返回的实例可以上屏
+      console.log(this.showCancelType)
+      if(this.showCancelType === 3) {
+        console.log("取消的不发送")
+        return
+      }
       const message = this.tim.createAudioMessage({
         to: this.data.customeId,
         conversationType: TIM.TYPES.CONV_C2C,
