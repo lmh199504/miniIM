@@ -1,0 +1,17 @@
+{
+  "name": "minicodeim",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "miniprogram-sm-crypto": "^0.2.5",
+    "tim-upload-plugin": "^1.0.1",
+    "tim-wx-sdk": "^2.9.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,28 @@
+/* pages/im/im.wxss */
+page{
+  height: 100%;
+  background: #F5F5F5;
+}
+
+.fixTop{
+  display: flex;
+  justify-content: space-evenly;
+  height: 122rpx;
+  background: #ffffff;
+  align-items: center;
+}
+.imgWrapper{
+  line-height: 0;
+}
+.iconImg{
+  height: 62rpx;
+  width: 62rpx;
+}
+.fixTop_item{
+  text-align: center;
+}
+.fixTop_text{
+  font-size: 24rpx;
+  color: #1D1C1B;
+  font-weight: 500;
+}

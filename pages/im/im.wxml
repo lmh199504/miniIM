@@ -1,0 +1,21 @@
+<!--pages/im/im.wxml-->
+<view>
+    <view class="fixTop">
+      <view class="fixTop_item">
+        <view class="imgWrapper"><image src="./imgs/weixin.png" class="iconImg"></image></view>
+        <view class="fixTop_text">打电话</view>
+      </view>
+      <view class="fixTop_item">
+        <view class="imgWrapper"><image src="./imgs/contact.png"  class="iconImg"></image></view>
+        <view class="fixTop_text">联系我</view>
+      </view>
+      <view class="fixTop_item">
+        <view class="imgWrapper"><image src="./imgs/call.png"  class="iconImg"></image></view>
+        <view class="fixTop_text">加微信</view>
+      </view>
+    </view>
+
+    <button catchtouchstart="startVolume" catchtouchend="stopVolume" catch:touchmove="onTouchMove">
+      录音
+    </button>
+</view>
