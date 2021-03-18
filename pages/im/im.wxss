@@ -2,6 +2,7 @@
 page{
   height: 100%;
   background: #F5F5F5;
+  /* overflow: hidden; */
 }
 
 .fixTop{
@@ -10,6 +11,9 @@ page{
   height: 122rpx;
   background: #ffffff;
   align-items: center;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 }
 .imgWrapper{
   line-height: 0;
@@ -26,3 +30,161 @@ page{
   color: #1D1C1B;
   font-weight: 500;
 }
+
+/* 发送消息 */
+.bottom {
+  background-color: #ededed;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.bottom-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-top: 2rpx solid #ddd;
+  padding: 20rpx;
+  flex-direction: row;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+.btn-left {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  margin-right: 20rpx;
+}
+
+.icon {
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.icon image{
+  height: 100%;
+  width: 100%;
+}
+.input {
+  background-color: #fff;
+  border-radius: 12rpx;
+  height: 68rpx;
+  box-sizing: border-box;
+  padding: 0 16rpx;
+}
+.btn {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  margin-left: 20rpx;
+}
+.bottom-div .send {
+  font-size: 28rpx;
+  background-color: #006fff;
+  color: #fff;
+  border-radius: 8rpx;
+  width: 100rpx;
+  height: fit-content;
+  padding: 12rpx;
+  margin-left: 12rpx;
+  text-align: center;
+}
+.record {
+  width: 100%;
+  background-color: #fff;
+  color: #495060;
+  border-radius: 12rpx;
+  box-sizing: border-box;
+  height: 68rpx;
+  line-height: 68rpx;
+  display: flex;
+  justify-content: center;
+}
+.recoding{
+  position: fixed;
+  width: 300rpx;
+  height: 300rpx;
+  background:rgba(0,0,0,0.3);
+  text-align: center;
+  color: #fff;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  line-height: 300rpx;
+  bottom: 200rpx;
+}
+.bottom-image {
+  box-sizing: border-box;
+  min-height: 300rpx;
+}
+.bottom-image .images {
+  box-sizing: border-box;
+  display: flex;
+  padding: 0 24rpx;
+  margin-top: 32rpx;
+}
+.bottom-image .images .block {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 24rpx;
+}
+.bottom-image .images .block .image {
+  width: 128rpx;
+  height: 128rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 16rpx;
+  background-color: #fff;
+  padding: 3vw;
+}
+.bottom-image .images .block .name {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+}
+
+.bottom-image .images .block .image .icon {
+  width: 52rpx;
+  height: 52rpx;
+}
+/* 表情 */
+.bottom-emoji {
+  position: relative;
+}
+.bottom-emoji .emojis {
+  height: 300rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+.bottom-emoji .emojis .emoji {
+  height: 12.5vw;
+  width: 12.5vw;
+  padding: 16rpx;
+  box-sizing: border-box;
+}
+
+/* 消息列表 */
+.scroll_vew_list{
+  height: 100%;
+}
+.list{
+  padding-top: 122rpx;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+}
+.scrollBottom{
+  height: 1px;
+}
+

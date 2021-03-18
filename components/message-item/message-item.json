@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "sound-message": "../sound-message/sound-message",
+    "text-message": "../text-message/text-message",
+    "image-message": "../image-message/image-message"
+  }
+}

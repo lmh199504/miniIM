@@ -2,6 +2,7 @@
 import TIM from 'tim-wx-sdk';
 import TIMUploadPlugin from 'tim-upload-plugin';
 import genTestUserSig from '../../utils/GenerateTestUserSig'
+import { emojiMap, emojiName, emojiUrl } from '../../utils/emojiMap'
 Page({
 
   /**
@@ -9,12 +10,21 @@ Page({
    */
   data: {
     userID: '',
-    messageText: '',
+    messageText: '', // 输入的文字
     messageList: [],
     customeId: 'user03',
     nextReqMessageID: '',
     conversationID: 'C2Cuser03',
-    isCompleted: false
+    isCompleted: false, 
+    showSpeek: false,
+    isRecoding: false,
+    isCancelRecoding: false,
+    showTools: false, //显示工具
+    emojiMap: emojiMap,
+    emojiName: emojiName,
+    emojiUrl: emojiUrl,
+    showEmoji: false,
+    bottom: ''
   },
 
   /**
@@ -78,6 +88,7 @@ Page({
       messageText: e.detail.value
     })
   },
+  // 发送文本消息
   sendTextMessage: function () {
     // 发送文本消息，Web 端与小程序端相同
     // 1. 创建消息实例，接口返回的实例可以上屏
@@ -94,12 +105,31 @@ Page({
     });
     // 2. 发送消息
     let promise = this.tim.sendMessage(message);
-    promise.then(function (imResponse) {
+    promise.then( (imResponse) => {
       // 发送成功
-      console.log(imResponse);
+      console.log(imResponse.data);
+      const { messageList } = this.data
+      this.setData({
+        messageText: '',
+        messageList: [...messageList,imResponse.data.message]
+      },() => {
+        this.setData({
+          bottom: "scrollBottom"
+        })
+        wx.pageScrollTo({
+          selector: '#scrollBottom',
+          duration: 100
+        })
+      })
+      
+
     }).catch(function (imError) {
       // 发送失败
       console.warn('sendMessage error:', imError);
+      wx.showToast({
+        title: '发送失败',
+        icon: "none"
+      })
     });
   },
   initIM(e) {
@@ -130,12 +160,16 @@ Page({
       // event.name - TIM.EVENT.SDK_READY
     });
 
-    this.tim.on(TIM.EVENT.MESSAGE_RECEIVED, function (event) {
+    this.tim.on(TIM.EVENT.MESSAGE_RECEIVED,  (event) => {
       // 收到推送的单聊、群聊、群提示、群系统通知的新消息，可通过遍历 event.data 获取消息列表数据并渲染到页面
       // event.name - TIM.EVENT.MESSAGE_RECEIVED
       // event.data - 存储 Message 对象的数组 - [Message]
       console.log("收到新消息了")
       console.log(event.data)
+      const { messageList } = this.data
+      this.setData({
+        messageList: [...messageList,...event.data]
+      })
     });
 
     this.tim.on(TIM.EVENT.MESSAGE_REVOKED, function (event) {
@@ -237,9 +271,16 @@ Page({
           const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
 
           this.setData({
-            messageList,
+            messageList: messageList,
             nextReqMessageID,
             isCompleted
+          })
+          this.setData({
+            bottom: 'scrollBottom'
+          })
+          wx.pageScrollTo({
+            selector: '#scrollBottom',
+            duration: 100
           })
         });
       } else {
@@ -261,7 +302,7 @@ Page({
         });
       }
     }
-
+    
   },
   sendRecord() {
     // 示例：使用微信官方的 RecorderManager 进行录音，参考 https://developers.weixin.qq.com/minigame/dev/api/media/recorder/RecorderManager.start.html
@@ -282,6 +323,9 @@ Page({
     });
     // 2.2 监听录音结束事件，录音结束后，调用 createAudioMessage 创建音频消息实例
     recorderManager.onStop((res) => {
+      this.setData({
+        isRecoding: false
+      })
       console.log('recorder stop', res);
       // 4. 创建消息实例，接口返回的实例可以上屏
       console.log(this.showCancelType)
@@ -302,6 +346,19 @@ Page({
       promise.then((imResponse) => {
         // 发送成功
         console.log(imResponse);
+        const { messageList } = this.data
+        this.setData({
+          messageList: [...messageList, imResponse.data.message]
+        },() => {
+          this.setData({
+            bottom: "scrollBottom"
+          })
+
+          wx.pageScrollTo({
+            selector: '#scrollBottom',
+            duration: 100
+          })
+        })
       }).catch((imError) => {
         // 发送失败
         console.warn('sendMessage error:', imError);
@@ -322,6 +379,9 @@ Page({
     recorderManager.start(options);
     recorderManager.onStart(() => {
       console.log('recorder start')
+      this.setData({
+        isRecoding: true
+      })
     });
     //错误回调
     recorderManager.onError((res) => {
@@ -335,11 +395,66 @@ Page({
   onTouchMove(e) {
     if (this.startPageY - e.touches[0].clientY > 50) {
       console.log("上滑取消")
+      this.setData({
+        isCancelRecoding: true
+      })
       //松开手指
       this.showCancelType = 3;
   } else {
       //上划取消
       this.showCancelType = 2;
+      this.setData({
+        isCancelRecoding: false
+      })
   }
+  },
+  // 切换语音或键盘
+  switchSpeek: function() {
+    const { showSpeek } = this.data
+    this.setData({
+      showSpeek: !showSpeek
+    })
+  },
+  toggleTools: function() {
+    const { showTools } = this.data
+    this.setData({
+      showTools: !showTools,
+      showEmoji: false
+    })
+  },
+  toggleEmoji() {
+    const { showEmoji } = this.data
+    this.setData({
+      showEmoji: !showEmoji,
+      showTools: false
+    })
+  },
+  // 文字输入
+  handleInput: function(e) {
+    console.log(e.detail.value)
+    this.setData({
+      messageText: e.detail.value
+    })
+  },
+  chooseEmoji: function(e) {
+    const { messageText } = this.data
+    this.setData({
+      messageText: messageText + e.currentTarget.dataset.item,
+      showSpeek: false
+    })
+  },
+  sendMessage() {
+    const { messageText } = this.data
+    if (messageText === '' || messageText.trim().length === 0) {
+      this.setData({
+        messageText: ''
+      })
+      wx.showToast({
+        title: '不能发送空消息',
+        icon: "none"
+      })
+      return
+    }
+    this.sendTextMessage()
   }
 })

@@ -1,0 +1,108 @@
+/* components/message-item/message-item.wxss */
+._li {
+  margin-top: 36rpx;
+  padding: 0 24rpx;
+}
+
+/* 左边的消息 */
+.item-left {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+.item-left .content {
+  margin-left: 20rpx;
+}
+
+.item-left .content .message {
+  background-color: #f8f8f8;
+  border: 2rpx solid #f1f1f1;
+  border-radius: 4rpx 16rpx 16rpx 16rpx;
+}
+.item-left .content .name {
+  width: 100%;
+  font-size: 24rpx;
+  line-height: 1;
+  color: #999;
+  margin-bottom: 12rpx;
+}
+
+.message {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  text-align: left;
+  width: fit-content;
+  word-break: break-all;
+  background-color: #c4c4c4;
+  padding: 24rpx;
+}
+.text-message {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  white-space: pre-wrap;
+}
+
+/* 右边的消息 */
+
+.item-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 100%;
+}
+.item-right .content {
+  margin-right: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.item-right .content .name {
+  font-size: 24rpx;
+  line-height: 1;
+  margin-bottom: 12rpx;
+  color: #999;
+  text-align: right;
+}
+
+.item-right .content .wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.item-right .content .wrapper .message {
+  background-color: rgba(0,111,255,0.1);
+  border: 2rpx solid rgba(0,111,255,0.3);
+  border-radius: 16rpx 4rpx 16rpx 16rpx;
+}
+
+/* 头像 */
+.i-avatar-square {
+  border-radius: 4px;
+}
+.i-avatar {
+  display: inline-block;
+  text-align: center;
+  background: transparent;
+  color: #fff;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 16px;
+  font-size: 18px;
+}
+.i-avatar>image {
+  width: 100%;
+  height: 100%;
+}
+.avatar {
+  height: 80rpx !important;
+  width: 80rpx !important;
+  border-radius: 8rpx !important;
+}

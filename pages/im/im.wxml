@@ -1,5 +1,5 @@
 <!--pages/im/im.wxml-->
-<view>
+<view style="height:100%;">
     <view class="fixTop">
       <view class="fixTop_item">
         <view class="imgWrapper"><image src="./imgs/weixin.png" class="iconImg"></image></view>
@@ -14,8 +14,82 @@
         <view class="fixTop_text">加微信</view>
       </view>
     </view>
-
-    <button catchtouchstart="startVolume" catchtouchend="stopVolume" catch:touchmove="onTouchMove">
+    <!-- 消息列表 -->
+    <!-- <scroll-view class="scroll_vew_list" scroll-with-animation scroll-y scroll-into-view="{{ bottom }}">
+      
+      <view id="scrollBottom" class="scrollBottom111"></view>
+    </scroll-view> -->
+    <view class="list">
+      <view class="" wx:for="{{ messageList }}" wx:key="index">
+        <message-item  messgae-info="{{item}}"></message-item>
+      </view>
+    </view>
+    <view id="scrollBottom" class="scrollBottom111"></view>
+    <!-- <button catchtouchstart="startVolume" catchtouchend="stopVolume" catch:touchmove="onTouchMove">
       录音
-    </button>
+    </button> -->
+    <view class="bottom">
+      <!-- 按钮 -->
+      <view class="bottom-div">
+        <view class="btn-left" wx:if="{{ showSpeek }}" bindtap="switchSpeek">
+          <view class="icon" style="height:28px;width:28px;">
+            <image src="../../statics/images/record.png"></image>
+          </view>
+        </view>
+        <view class="btn-left" wx:else bindtap="switchSpeek">
+          <view class="icon" style="height:28px;width:28px;">
+            <image src="../../statics/images/audio.png"></image>
+          </view>
+        </view>
+        <view class="record" wx:if="{{ showSpeek }}" catchtouchstart="startVolume" catchtouchend="stopVolume" catch:touchmove="onTouchMove">按住说话</view>
+        <view style="width: 100%;" wx:else="{{!showSpeek }}">
+          <input type="text" class="input" value="{{ messageText }}"  bindinput="handleInput"/>
+        </view>
+        <view class="btn" bindtap="toggleEmoji">
+          <view class="icon" style="width:28px;height:28px;">
+            <image src="../../statics/images/smile.png"></image>
+          </view>
+        </view>
+        <view class="send" wx:if="{{ messageText !=='' }}" bindtap="sendMessage">发送</view>
+        <view class="btn" wx:else bindtap="toggleTools">
+          <view class="icon" style="width:28px;height:28px;">
+            <image src="../../statics/images/more.png"></image>
+          </view>
+        </view>
+      </view>
+      <!-- 工具 -->
+      <view class="bottom-image" wx:if="{{ showTools }}">
+        <view class="images">
+          <view class="block">
+            <view class="image">
+              <image class="icon" src="../../statics/images/take-pic.png"></image>
+            </view>
+            <view class="name">拍照</view>
+          </view>
+          <view class="block">
+            <view class="image">
+              <image class="icon" src="../../statics/images/picture.png"></image>
+            </view>
+            <view class="name">图片</view>
+          </view>
+        </view>
+      </view>
+      <!-- 表情 -->
+      <view class="bottom-emoji" wx:if="{{ showEmoji }}">
+        <view class="emojis">
+          <view class="emoji" wx:for="{{emojiName}}" wx:key="index" bindtap="chooseEmoji" data-item="{{item}}">
+            <image src="{{ emojiUrl + emojiMap[item] }}" style="width:100%;height:100%;"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>
+
+<!-- 在录音中且未取消 -->
+<view class="recoding" hidden="{{ !(isRecoding && !isCancelRecoding) }}">
+  录音中，上滑取消
+</view>
+<!-- 在录音中且取消 -->
+<view class="recoding" hidden="{{ !(isRecoding && isCancelRecoding) }}">
+  松开取消
 </view>

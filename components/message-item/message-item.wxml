@@ -1,0 +1,24 @@
+<!--components/message-item/message-item.wxml-->
+<!-- <view style="height:300rpx">components/message-item/message-item.wxml</view> -->
+
+<view class="_li">
+  <view class="{{ info.flow === 'out' ? 'item-right': 'item-left' }}">
+    <view class="content">
+      <view class="name">{{ info.from }}</view>
+      <view class="wrapper">
+        <view class="message">
+          <view class="text-message">
+            <sound-message wx:if="{{ info.type === 'TIMSoundElem' }}"></sound-message>
+            <text-message wx:if="{{ info.type === 'TIMTextElem' }}" messageInfo="{{ info }}"></text-message>
+            <image-message wx:if="{{ info.type === 'TIMImageElem' }}"></image-message>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view>
+      <view class=".avatar i-avatar i-avatar-square i-avatar-default">
+        <image src="{{ info.avatar ? info.avatar : '../../statics/images/avatar.png' }}"></image>
+      </view>  
+    </view>
+  </view>
+</view>

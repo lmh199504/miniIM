@@ -1,0 +1,5 @@
+<!--components/text-message/text-message.wxml-->
+<view wx:for="{{ message }}" wx:key="index">
+  <text wx:if="{{ item.name === 'text' }}">{{ item.text }}</text>
+  <image wx:if="{{ item.name === 'img' }}" src="{{ item.src }}" style="width:40rpx;height:40rpx;" />
+</view>

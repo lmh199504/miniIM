@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "message-item": "../../components/message-item/message-item"
+  },
   "navigationBarBackgroundColor": "#FFDA44"
 }
