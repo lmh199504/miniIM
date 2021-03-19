@@ -1,1 +1,7 @@
 /* components/image-message/image-message.wxss */
+.image-wrapper{
+}
+.image-wrapper image{
+  width: 250rpx;
+  height: auto;
+}

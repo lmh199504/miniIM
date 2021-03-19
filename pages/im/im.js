@@ -2,7 +2,11 @@
 import TIM from 'tim-wx-sdk';
 import TIMUploadPlugin from 'tim-upload-plugin';
 import genTestUserSig from '../../utils/GenerateTestUserSig'
-import { emojiMap, emojiName, emojiUrl } from '../../utils/emojiMap'
+import {
+  emojiMap,
+  emojiName,
+  emojiUrl
+} from '../../utils/emojiMap'
 Page({
 
   /**
@@ -12,10 +16,10 @@ Page({
     userID: '',
     messageText: '', // 输入的文字
     messageList: [],
-    customeId: 'user03',
+    customeId: 'user3',
     nextReqMessageID: '',
-    conversationID: 'C2Cuser03',
-    isCompleted: false, 
+    conversationID: 'C2Cuser3',
+    isCompleted: false,
     showSpeek: false,
     isRecoding: false,
     isCancelRecoding: false,
@@ -105,24 +109,9 @@ Page({
     });
     // 2. 发送消息
     let promise = this.tim.sendMessage(message);
-    promise.then( (imResponse) => {
+    promise.then((imResponse) => {
       // 发送成功
-      console.log(imResponse.data);
-      const { messageList } = this.data
-      this.setData({
-        messageText: '',
-        messageList: [...messageList,imResponse.data.message]
-      },() => {
-        this.setData({
-          bottom: "scrollBottom"
-        })
-        wx.pageScrollTo({
-          selector: '#scrollBottom',
-          duration: 100
-        })
-      })
-      
-
+      this.handleSuccess(imResponse)
     }).catch(function (imError) {
       // 发送失败
       console.warn('sendMessage error:', imError);
@@ -160,15 +149,17 @@ Page({
       // event.name - TIM.EVENT.SDK_READY
     });
 
-    this.tim.on(TIM.EVENT.MESSAGE_RECEIVED,  (event) => {
+    this.tim.on(TIM.EVENT.MESSAGE_RECEIVED, (event) => {
       // 收到推送的单聊、群聊、群提示、群系统通知的新消息，可通过遍历 event.data 获取消息列表数据并渲染到页面
       // event.name - TIM.EVENT.MESSAGE_RECEIVED
       // event.data - 存储 Message 对象的数组 - [Message]
       console.log("收到新消息了")
       console.log(event.data)
-      const { messageList } = this.data
+      const {
+        messageList
+      } = this.data
       this.setData({
-        messageList: [...messageList,...event.data]
+        messageList: [...messageList, ...event.data]
       })
     });
 
@@ -302,7 +293,7 @@ Page({
         });
       }
     }
-    
+
   },
   sendRecord() {
     // 示例：使用微信官方的 RecorderManager 进行录音，参考 https://developers.weixin.qq.com/minigame/dev/api/media/recorder/RecorderManager.start.html
@@ -329,7 +320,7 @@ Page({
       console.log('recorder stop', res);
       // 4. 创建消息实例，接口返回的实例可以上屏
       console.log(this.showCancelType)
-      if(this.showCancelType === 3) {
+      if (this.showCancelType === 3) {
         console.log("取消的不发送")
         return
       }
@@ -346,19 +337,7 @@ Page({
       promise.then((imResponse) => {
         // 发送成功
         console.log(imResponse);
-        const { messageList } = this.data
-        this.setData({
-          messageList: [...messageList, imResponse.data.message]
-        },() => {
-          this.setData({
-            bottom: "scrollBottom"
-          })
-
-          wx.pageScrollTo({
-            selector: '#scrollBottom',
-            duration: 100
-          })
-        })
+        this.handleSuccess(imResponse)
       }).catch((imError) => {
         // 发送失败
         console.warn('sendMessage error:', imError);
@@ -400,51 +379,61 @@ Page({
       })
       //松开手指
       this.showCancelType = 3;
-  } else {
+    } else {
       //上划取消
       this.showCancelType = 2;
       this.setData({
         isCancelRecoding: false
       })
-  }
+    }
   },
   // 切换语音或键盘
-  switchSpeek: function() {
-    const { showSpeek } = this.data
+  switchSpeek: function () {
+    const {
+      showSpeek
+    } = this.data
     this.setData({
       showSpeek: !showSpeek
     })
   },
-  toggleTools: function() {
-    const { showTools } = this.data
+  toggleTools: function () {
+    const {
+      showTools
+    } = this.data
     this.setData({
       showTools: !showTools,
       showEmoji: false
     })
   },
   toggleEmoji() {
-    const { showEmoji } = this.data
+    const {
+      showEmoji
+    } = this.data
     this.setData({
       showEmoji: !showEmoji,
       showTools: false
     })
   },
   // 文字输入
-  handleInput: function(e) {
+  handleInput: function (e) {
     console.log(e.detail.value)
     this.setData({
       messageText: e.detail.value
     })
   },
-  chooseEmoji: function(e) {
-    const { messageText } = this.data
+  chooseEmoji: function (e) {
+    const {
+      messageText
+    } = this.data
     this.setData({
       messageText: messageText + e.currentTarget.dataset.item,
       showSpeek: false
     })
   },
   sendMessage() {
-    const { messageText } = this.data
+    const {
+      messageText
+    } = this.data
     if (messageText === '' || messageText.trim().length === 0) {
       this.setData({
         messageText: ''
@@ -456,5 +445,120 @@ Page({
       return
     }
     this.sendTextMessage()
+  },
+  chooseImage: function () {
+    // 小程序端发送图片
+    // 1. 选择图片
+    wx.chooseImage({
+      sourceType: ['album'], // 从相册选择
+      count: 1, // 只选一张，目前 SDK 不支持一次发送多张图片
+      success: (res) => {
+        // 2. 创建消息实例，接口返回的实例可以上屏
+        let message = this.tim.createImageMessage({
+          to: this.data.customeId,
+          conversationType: TIM.TYPES.CONV_C2C,
+          payload: {
+            file: res
+          },
+          onProgress: function (event) {
+            console.log('file uploading:', event)
+          }
+        });
+        // 3. 发送图片
+        let promise = this.tim.sendMessage(message);
+        promise.then((imResponse) => {
+          this.handleSuccess(imResponse)
+          this.setData({
+            showEmoji: false,
+            showTools: false
+          })
+        }).catch(function (imError) {
+          // 发送失败
+          console.warn('sendMessage error:', imError);
+        });
+      }
+    })
+  },
+  handleSuccess: function (imResponse) {
+    const {
+      messageList
+    } = this.data
+    this.setData({
+      messageText: '',
+      messageList: [...messageList, imResponse.data.message]
+    }, () => {
+      this.setData({
+        bottom: "scrollBottom"
+      })
+      wx.pageScrollTo({
+        selector: '#scrollBottom',
+        duration: 100
+      })
+    })
+  },
+  takePhoto: function () {
+    // 小程序端发送图片
+    // 1. 选择图片
+    wx.chooseImage({
+      sourceType: ['camera'], // 从相册选择
+      count: 1, // 只选一张，目前 SDK 不支持一次发送多张图片
+      success: (res) => {
+        // 2. 创建消息实例，接口返回的实例可以上屏
+        let message = this.tim.createImageMessage({
+          to: this.data.customeId,
+          conversationType: TIM.TYPES.CONV_C2C,
+          payload: {
+            file: res
+          },
+          onProgress: function (event) {
+            console.log('file uploading:', event)
+          }
+        });
+        // 3. 发送图片
+        let promise = this.tim.sendMessage(message);
+        promise.then((imResponse) => {
+          this.handleSuccess(imResponse)
+          this.setData({
+            showEmoji: false,
+            showTools: false
+          })
+        }).catch(function (imError) {
+          // 发送失败
+          console.warn('sendMessage error:', imError);
+        });
+      }
+    })
+  },
+  clickList() {
+    this.setData({
+      showEmoji: false,
+      showTools: false
+    })
+  },
+  // 打电话
+  callPhone() {
+    wx.makePhoneCall({
+      phoneNumber: "18160980492"
+    })
+  },
+  callMe() {
+    const text = "这是我的联系方式,请联系我：\n" + '18160980492'
+    this.setData({
+      messageText: text
+    }, () => {
+      this.sendTextMessage()
+    })
+  },
+  copyWeixinNumber() {
+    wx.setClipboardData({
+      data: "wxid_1234567789",
+      success: function () {
+        // 添加下面的代码可以复写复制成功默认提示文本`内容已复制` 
+        wx.showToast({
+          title: '微信号复制成功',
+          duration: 3000
+        })
+      }
+    })
   }
 })

@@ -1,2 +1,5 @@
 <!--components/image-message/image-message.wxml-->
-<text>图片消息</text>
+<!-- <text>图片消息</text> -->
+<view class="image-wrapper" bindtap="previewImage">
+  <image  style="{{ 'width:' + imageUrl.width/4 + 'rpx;height:' + imageUrl.height/4 + 'rpx;' }}" src="{{ imageUrl.imageUrl }}"></image>
+</view>

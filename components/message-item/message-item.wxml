@@ -8,9 +8,10 @@
       <view class="wrapper">
         <view class="message">
           <view class="text-message">
-            <sound-message wx:if="{{ info.type === 'TIMSoundElem' }}"></sound-message>
-            <text-message wx:if="{{ info.type === 'TIMTextElem' }}" messageInfo="{{ info }}"></text-message>
-            <image-message wx:if="{{ info.type === 'TIMImageElem' }}"></image-message>
+            <sound-message wx:if="{{ info.type === 'TIMSoundElem' }}"  messageInfo="{{ info }}"></sound-message>
+            <text-message wx:elif="{{ info.type === 'TIMTextElem' }}" messageInfo="{{ info }}"></text-message>
+            <image-message wx:elif="{{ info.type === 'TIMImageElem' }}"  messageInfo="{{ info }}"></image-message>
+            <view wx:else>【暂不支持的消息类型】</view>
           </view>
         </view>
       </view>

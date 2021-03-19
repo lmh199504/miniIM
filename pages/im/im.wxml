@@ -1,15 +1,15 @@
 <!--pages/im/im.wxml-->
 <view style="height:100%;">
     <view class="fixTop">
-      <view class="fixTop_item">
+      <view class="fixTop_item" bindtap="callPhone">
         <view class="imgWrapper"><image src="./imgs/weixin.png" class="iconImg"></image></view>
         <view class="fixTop_text">打电话</view>
       </view>
-      <view class="fixTop_item">
+      <view class="fixTop_item" bindtap="callMe">
         <view class="imgWrapper"><image src="./imgs/contact.png"  class="iconImg"></image></view>
         <view class="fixTop_text">联系我</view>
       </view>
-      <view class="fixTop_item">
+      <view class="fixTop_item" bindtap="copyWeixinNumber">
         <view class="imgWrapper"><image src="./imgs/call.png"  class="iconImg"></image></view>
         <view class="fixTop_text">加微信</view>
       </view>
@@ -19,7 +19,7 @@
       
       <view id="scrollBottom" class="scrollBottom111"></view>
     </scroll-view> -->
-    <view class="list">
+    <view class="list" bindtap="clickList">
       <view class="" wx:for="{{ messageList }}" wx:key="index">
         <message-item  messgae-info="{{item}}"></message-item>
       </view>
@@ -60,13 +60,13 @@
       <!-- 工具 -->
       <view class="bottom-image" wx:if="{{ showTools }}">
         <view class="images">
-          <view class="block">
+          <view class="block" bindtap="takePhoto">
             <view class="image">
               <image class="icon" src="../../statics/images/take-pic.png"></image>
             </view>
             <view class="name">拍照</view>
           </view>
-          <view class="block">
+          <view class="block" bindtap="chooseImage">
             <view class="image">
               <image class="icon" src="../../statics/images/picture.png"></image>
             </view>

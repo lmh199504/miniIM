@@ -1,2 +1,5 @@
 <!--components/sound-message/sound-message.wxml-->
-<text>语音消息</text>
+<view class="audio_wrapper" bindtap="playAudio">
+  <image class="audioPlay" src="../../statics/images/audio-play.png"></image>
+  <text>{{ message.second }}s</text>
+</view>

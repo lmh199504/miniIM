@@ -1,4 +1,9 @@
 // app.js
+const InnerAudioContext = wx.createInnerAudioContext()
+InnerAudioContext.autoplay = true
+InnerAudioContext.onTimeUpdate(() => {
+  console.log("播放中")
+})
 App({
   onLaunch() {
     // 展示本地存储能力
@@ -14,6 +19,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    InnerAudioContext,
   }
 })

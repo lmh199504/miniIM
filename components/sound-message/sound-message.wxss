@@ -1,1 +1,9 @@
 /* components/sound-message/sound-message.wxss */
+.audioPlay{
+  width: 22px;
+  height: 22px;
+}
+.audio_wrapper{
+  display: flex;
+  align-items: center;
+}
